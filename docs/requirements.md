@@ -1,36 +1,36 @@
-# Login Feature Requirements
+# 登录功能需求
 
-## Goal
+## 目标
 
-Build a frontend/backend separated login demo.
+构建一个前后端分离的登录演示项目。
 
-- Backend: Java Spring Boot in `src/`
-- Frontend: React in `frontend/`
+- 后端：Java Spring Boot，位于 `src/`
+- 前端：React，位于 `frontend/`
 
-## Initial Functional Requirements
+## 初始功能需求
 
-- Users can submit a username and password from the React frontend.
-- The frontend calls a backend login API.
-- The backend validates the request body.
-- The backend returns a clear success or failure response.
-- The frontend displays login success and login failure states.
+- 用户可以在 React 前端提交用户名和密码。
+- 前端调用后端登录 API。
+- 后端校验请求体。
+- 后端返回清晰的成功或失败响应。
+- 前端展示登录成功和登录失败状态。
 
-## Security Requirements
+## 安全要求
 
-- Do not store plaintext passwords.
-- Do not commit real secrets.
-- Do not log passwords or tokens.
-- Validate backend input before authentication logic runs.
-- Return generic authentication failure messages to avoid leaking account details.
+- 不存储明文密码。
+- 不提交真实密钥。
+- 不记录密码或 Token 日志。
+- 在认证逻辑运行前完成后端输入校验。
+- 返回通用认证失败信息，避免泄露账号是否存在等细节。
 
-## Suggested API Contract
+## 建议 API 契约
 
 ```http
 POST /api/auth/login
 Content-Type: application/json
 ```
 
-Request:
+请求：
 
 ```json
 {
@@ -39,7 +39,7 @@ Request:
 }
 ```
 
-Success response:
+成功响应：
 
 ```json
 {
@@ -48,7 +48,7 @@ Success response:
 }
 ```
 
-Failure response:
+失败响应：
 
 ```json
 {
@@ -57,10 +57,9 @@ Failure response:
 }
 ```
 
-## Implementation Notes
+## 实现说明
 
-- Start with a simple demo user if no database exists yet.
-- Keep the demo user configuration isolated so it can later be replaced by a real user store.
-- Add backend tests for success, wrong password, missing username, and missing password.
-- Add frontend tests when the React project is initialized.
-
+- 如果暂时没有数据库，可以先使用简单的演示用户。
+- 演示用户配置应保持隔离，方便后续替换为真实用户存储。
+- 后端测试应覆盖登录成功、密码错误、缺少用户名、缺少密码。
+- React 项目初始化后，应补充前端测试。

@@ -1,34 +1,34 @@
-# Codex Development Guide
+# Codex 开发指南
 
-This project uses a frontend/backend separated architecture.
+本项目采用前后端分离架构。
 
-- Backend: Java Spring Boot in `src/`
-- Frontend: React in `frontend/`
-- Shared agent documents: `docs/`
-- Automation scripts: `scripts/`
+- 后端：Java Spring Boot，位于 `src/`
+- 前端：React，位于 `frontend/`
+- Agent 共享文档：`docs/`
+- 自动化脚本：`scripts/`
 
-## Codex Role
+## Codex 角色
 
-Codex is the implementation agent. Its job is to write code, update tests, run verification, and address required review feedback from Claude Code.
+Codex 是代码实现 Agent，负责开发代码、更新测试、运行验证命令，并处理 Claude Code 提出的必改审计意见。
 
-## Workflow
+## 工作流程
 
-1. Read `docs/requirements.md`.
-2. If `docs/review.md` exists, address the required issues first.
-3. Make the smallest coherent code change for the requested login feature.
-4. Add or update tests for behavior that changed.
-5. Run relevant verification commands.
-6. Leave the repository in a reviewable state.
+1. 阅读 `docs/requirements.md`。
+2. 如果 `docs/review.md` 存在，优先处理其中的必改问题。
+3. 围绕登录功能做最小且完整的一组代码修改。
+4. 为变更的行为新增或更新测试。
+5. 运行相关验证命令。
+6. 保持仓库处于可审计、可提交的状态。
 
-## Verification Commands
+## 验证命令
 
-Backend:
+后端：
 
 ```powershell
 .\gradlew.bat test
 ```
 
-Frontend, when `frontend/package.json` exists:
+前端，当 `frontend/package.json` 存在时：
 
 ```powershell
 npm --prefix frontend install
@@ -36,13 +36,12 @@ npm --prefix frontend test
 npm --prefix frontend run build
 ```
 
-## Development Rules
+## 开发规则
 
-- Keep authentication logic explicit and easy to review.
-- Do not commit secrets, tokens, passwords, or private keys.
-- Validate request data at the backend boundary.
-- Never store plaintext passwords.
-- Prefer project conventions over introducing new dependencies.
-- Do not mark work complete unless verification has been run or the reason it could not run is documented.
-- Do not overwrite files changed by another agent without first reading the current contents.
-
+- 认证逻辑必须清晰、显式，便于审计。
+- 不得提交密钥、令牌、密码或私钥。
+- 在后端边界处校验请求数据。
+- 永远不要存储明文密码。
+- 优先沿用项目已有约定，避免随意引入新依赖。
+- 只有在验证命令已运行，或无法运行的原因已记录时，才能说明工作完成。
+- 覆盖其他 Agent 修改过的文件前，必须先读取当前文件内容。

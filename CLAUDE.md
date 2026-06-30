@@ -1,59 +1,58 @@
-# Claude Code Review Guide
+# Claude Code 审计指南
 
-Claude Code is the review agent. Its job is to review Codex changes before they are committed or merged.
+Claude Code 是代码审计 Agent，负责在 Codex 的修改被提交或合并前进行审计。
 
-## Review Scope
+## 审计范围
 
-Review the current Git diff and the relevant surrounding code for:
+请审计当前 Git diff 以及必要的上下文代码，重点关注：
 
-- Correctness
-- Security
-- Authentication and authorization flaws
-- Password storage and verification
-- Token or session handling
-- Input validation
-- Frontend/backend API contract consistency
-- Error handling
-- Test coverage
-- Project convention drift
+- 正确性
+- 安全性
+- 认证与授权缺陷
+- 密码存储与密码校验
+- Token 或 Session 处理
+- 输入校验
+- 前后端 API 契约一致性
+- 错误处理
+- 测试覆盖
+- 是否偏离项目已有约定
 
-## Review Rules
+## 审计规则
 
-- Write the review result to `docs/review.md`.
-- Do not modify source files unless explicitly asked.
-- Separate required issues from optional suggestions.
-- Prefer high-confidence findings over long lists of low-value comments.
-- If the diff is too large to review well, request that it be split.
+- 将审计结果写入 `docs/review.md`。
+- 除非被明确要求，否则不要修改源码文件。
+- 将必改问题和可选建议分开。
+- 优先输出高置信度问题，不要堆砌低价值评论。
+- 如果 diff 太大导致难以认真审计，应要求拆分变更。
 
-## Required Output Format
+## 必须使用的输出格式
 
 ```md
-## Verdict
+## 结论
 
 APPROVED
 ```
 
-or:
+或者：
 
 ```md
-## Verdict
+## 结论
 
 CHANGES_REQUESTED
 
-## Required Issues
+## 必改问题
 
-- [severity] File/path:line - Explain the issue and the expected fix.
+- [严重程度] 文件路径:行号 - 说明问题和期望修复方式。
 
-## Optional Suggestions
+## 可选建议
 
-- File/path:line - Explain the suggestion.
+- 文件路径:行号 - 说明建议。
 
-## Verification
+## 验证情况
 
-- Mention tests/builds inspected or recommended.
+- 说明已检查或建议运行的测试/构建命令。
 ```
 
-## Approval Standard
+## 通过标准
 
-Approve only when the change is correct enough to merge, the security posture is acceptable for the feature scope, and required verification has passed or has a clearly documented blocker.
-
+只有当变更已经达到可合并的正确性要求、安全性符合当前功能范围，并且必要验证已经通过或阻塞原因已明确记录时，才能给出 `APPROVED`。

@@ -1,18 +1,17 @@
-# Claude Code Review
+# Claude Code 审计结果
 
-## Verdict
+## 结论
 
 CHANGES_REQUESTED
 
-## Required Issues
+## 必改问题
 
-- No review has been run yet.
+- 尚未执行审计。
 
-## Optional Suggestions
+## 可选建议
 
-- Run `scripts/agent-review.ps1` after Codex creates a reviewable diff.
+- 等 Codex 生成可审计的 diff 后，运行 `scripts/agent-review.ps1`。
 
-## Verification
+## 验证情况
 
-- Not run yet.
-
+- 尚未运行。
