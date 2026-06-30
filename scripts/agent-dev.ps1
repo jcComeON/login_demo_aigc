@@ -4,15 +4,26 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-function Find-CommandOrFail {
-    param([string]$Name)
+function Find-CodexOrFail {
+    $commandNames = @("codex", "codex.exe")
 
-    $command = Get-Command $Name -ErrorAction SilentlyContinue
-    if (-not $command) {
-        throw "Command '$Name' was not found. Install it or adjust this script to use the correct CLI name."
+    foreach ($name in $commandNames) {
+        $command = Get-Command $name -ErrorAction SilentlyContinue
+        if ($command) {
+            return $command.Source
+        }
     }
 
-    return $command.Source
+    $windowsAppsMatches = Get-ChildItem `
+        -Path "C:\Program Files\WindowsApps\OpenAI.Codex_*\app\resources\codex.exe" `
+        -ErrorAction SilentlyContinue |
+        Sort-Object FullName -Descending
+
+    if ($windowsAppsMatches) {
+        return $windowsAppsMatches[0].FullName
+    }
+
+    throw "Codex CLI was not found. Install Codex, enable the Codex app execution alias, or adjust scripts/agent-dev.ps1 to point to codex.exe."
 }
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
@@ -20,6 +31,5 @@ Set-Location $repoRoot
 
 New-Item -ItemType Directory -Force docs | Out-Null
 
-$codex = Find-CommandOrFail "codex"
+$codex = Find-CodexOrFail
 & $codex $Prompt
-
