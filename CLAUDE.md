@@ -1,4 +1,4 @@
-# Claude Code 审计指南
+﻿# Claude Code 审计指南
 
 Claude Code 是代码审计 Agent，负责在 Codex 的修改被提交或合并前进行审计。
 

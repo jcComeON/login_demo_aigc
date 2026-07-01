@@ -7,9 +7,18 @@ $ErrorActionPreference = "Stop"
 function Find-CodexOrFail {
     $commandNames = @("codex", "codex.exe")
 
+    $localCodexMatches = Get-ChildItem `
+        -Path (Join-Path $env:LOCALAPPDATA "OpenAI\Codex\bin\*\codex.exe") `
+        -ErrorAction SilentlyContinue |
+        Sort-Object LastWriteTime -Descending
+
+    if ($localCodexMatches) {
+        return $localCodexMatches[0].FullName
+    }
+
     foreach ($name in $commandNames) {
         $command = Get-Command $name -ErrorAction SilentlyContinue
-        if ($command) {
+        if ($command -and $command.Source -notlike "C:\Program Files\WindowsApps\*") {
             return $command.Source
         }
     }
@@ -32,4 +41,11 @@ Set-Location $repoRoot
 New-Item -ItemType Directory -Force docs | Out-Null
 
 $codex = Find-CodexOrFail
-& $codex $Prompt
+$codexArgs = @(
+    "exec",
+    "--dangerously-bypass-approvals-and-sandbox",
+    "-C", $repoRoot,
+    $Prompt
+)
+
+& $codex @codexArgs
